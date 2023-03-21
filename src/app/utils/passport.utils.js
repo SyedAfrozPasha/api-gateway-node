@@ -3,8 +3,10 @@ const passportJWT = require("passport-jwt");
 const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
+
+// Get User schema
 const { Users } = require("../dataLayer/config/dbConfig");
-const { JWT_SECRET } = require("../utils/constants");
+const { JWT_SECRET } = require("./constants");
 
 passport.use(
   new LocalStrategy(
@@ -13,11 +15,9 @@ passport.use(
       passwordField: "password",
     },
     async (userName, password, done) => {
-      Users.findOne({ userName: userName }, function (err, user) {
-        if (err) {
-          console.log("ERR::", err);
-          return done(err);
-        }
+      try {
+        // Find the record from the DB with userName
+        const user = await Users.findOne({ userName: userName });
         if (!user) {
           return done(null, false);
         }
@@ -25,7 +25,9 @@ passport.use(
           return done(null, false);
         }
         return done(null, user);
-      });
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );
@@ -38,7 +40,6 @@ passport.use(
     },
     async (jwtPayload, done) => {
       try {
-        console.log("jwtPayload:", jwtPayload);
         const user = await Users.findOne({ userName: jwtPayload.userName });
         if (user) {
           return done(null, user);

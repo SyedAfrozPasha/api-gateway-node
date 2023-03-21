@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
+// Validation Schema's
 const {
   postSchema,
   getSchema,
@@ -18,6 +19,7 @@ const {
   deleteTimeEntry,
 } = require("../services/timeEntries.service");
 
+// Route to get all the time entry details for employeeId
 router.get(
   "/entries/:employeeId",
   passport.authenticate("jwt", { session: false }),
@@ -26,9 +28,10 @@ router.get(
       // Validate the params with joi schema
       await getSchema.validateAsync(req.params);
 
+      // Get the employee id from the params
       const { employeeId } = req.params;
-      console.log("employeeId:", employeeId);
 
+      // Get all the time entry details for a employeeId
       const timeEntryData = await getTimeEntriesByEmployeeId(employeeId);
 
       const result = {
@@ -38,10 +41,10 @@ router.get(
         message: "Success",
       };
 
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      res.status(400).json({
+      return res.status(400).json({
         isError: true,
         message: "Failed",
       });
@@ -49,6 +52,7 @@ router.get(
   }
 );
 
+// Route to create new time entries
 router.post(
   "/entries",
   passport.authenticate("jwt", { session: false }),
@@ -57,6 +61,7 @@ router.post(
       // Validate the body with joi schema
       await postSchema.validateAsync(req.body);
 
+      // Create the time entry record in DB
       await createTimeEntry(req.body);
 
       const result = {
@@ -64,10 +69,10 @@ router.post(
         message: "Success",
       };
 
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      res.status(400).json({
+      return res.status(400).json({
         isError: true,
         message: "Failed",
       });
@@ -75,6 +80,7 @@ router.post(
   }
 );
 
+// Route to update the time entry details
 router.put(
   "/entries/:id",
   passport.authenticate("jwt", { session: false }),
@@ -82,10 +88,14 @@ router.put(
     try {
       // Validate the params with joi schema
       await putQueryParamsSchema.validateAsync(req.params);
+
+      // Get the time entry id
       const { id } = req.params;
 
       // Validate the body with joi schema
       await putBodySchema.validateAsync(req.body);
+
+      // Update the time entry details
       await updateTimeEntryById(id, req.body);
 
       const result = {
@@ -93,10 +103,10 @@ router.put(
         message: "Success",
       };
 
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      res.status(400).json({
+      return res.status(400).json({
         isError: true,
         message: "Failed",
       });
@@ -104,6 +114,7 @@ router.put(
   }
 );
 
+// Route to delete the time entry records from the DB
 router.delete(
   "/entries/:id",
   passport.authenticate("jwt", { session: false }),
@@ -111,7 +122,11 @@ router.delete(
     try {
       // Validate the params with joi schema
       await deleteSchema.validateAsync(req.params);
+
+      // Get the time entry id
       const { id } = req.params;
+
+      // Delete the time entry records from the DB
       await deleteTimeEntry(id);
 
       const result = {
@@ -119,10 +134,10 @@ router.delete(
         message: "Success",
       };
 
-      res.status(200).json(result);
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      res.status(400).json({
+      return res.status(400).json({
         isError: true,
         message: "Failed",
       });
