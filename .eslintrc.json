@@ -1,0 +1,32 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "jest": true,
+    "es6": true
+  },
+  "globals": {
+    "process": "readonly",
+    "Buffer": "readonly"
+  },
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "linebreak-style": "off",
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+    "semi": [2, "always"],
+    "no-unused-vars": "error",
+    "no-undef": "error",
+    "no-warning-comments": [
+      1,
+      {
+        "terms": ["TODO", "FIXME"],
+        "location": "start"
+      }
+    ]
+  }
+}
