@@ -37,3 +37,7 @@
    ```bash
    npm run test
    ```
+
+## Documentation
+
+[API Document - Swagger](https://htmlpreview.github.io/?https://github.com/SyedAfrozPasha/api-gateway-node/blob/main/swagger/index.html)
