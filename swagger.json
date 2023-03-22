@@ -1,0 +1,451 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Time-Entry APIs",
+    "description": "Collection of APIs to manage the time entry module.",
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/license/mit/"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/exp",
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter the token with the `Bearer: ` prefix, e.g. \"Bearer abcde12345\"."
+    }
+  },
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/time-management/v1/entries/{id}": {
+      "get": {
+        "description": "Get time entry details for an employee",
+        "summary": "GetTimeEntryDetails",
+        "tags": ["Time Entry"],
+        "operationId": "GetTimeEntryDetails",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "employeeId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "$ref": "#/definitions/GetTimeEntriesResponse"
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "description": "Update the time entry details by id",
+        "summary": "UpdateTImeEntryDetails",
+        "tags": ["Time Entry"],
+        "operationId": "UpdateTImeEntryDetails",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateTImeEntryDetailsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "description": "Delete the time entry details by id",
+        "summary": "DeleteTimeEntryDetails",
+        "tags": ["Time Entry"],
+        "operationId": "DeleteTimeEntryDetails",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/time-management/v1/entries": {
+      "post": {
+        "description": "Save new time entry details",
+        "summary": "CreateTimeEntry",
+        "tags": ["Time Entry"],
+        "operationId": "CreateTimeEntry",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PostTimeEntriesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/v1/register": {
+      "post": {
+        "description": "Register user with email and password",
+        "summary": "RegisterUser",
+        "tags": ["Authentication"],
+        "operationId": "RegisterUser",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isError": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully registered!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/v1/login": {
+      "post": {
+        "summary": "Login",
+        "tags": ["Authentication"],
+        "operationId": "Login",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "isError": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login Successful!"
+                },
+                "userName": {
+                  "type": "string",
+                  "example": "user2@test.com"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InVzZXIyQHRlc3QuY29tIiwiaWF0IjoxNjc5NDg4NzQxLCJleHAiOjE2ODA0ODg3NDF9.uGs6_iECtw0vCr-Gr3AuNmfGmDm5O6raiIcUlSmEgL"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error Response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "definitions": {
+    "UpdateTImeEntryDetailsRequest": {
+      "title": "UpdateTImeEntryDetailsRequest",
+      "example": {
+        "type": "Sick-Leave",
+        "description": "SL"
+      },
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "description"]
+    },
+    "RegisterUserRequest": {
+      "title": "RegisterUserRequest",
+      "example": {
+        "userName": "user2@test.com",
+        "password": "password@123"
+      },
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["userName", "password"]
+    },
+    "LoginRequest": {
+      "title": "LoginRequest",
+      "example": {
+        "userName": "user2@test.com",
+        "password": "password@123"
+      },
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["userName", "password"]
+    },
+    "GetTimeEntriesResponse": {
+      "type": "object",
+      "properties": {
+        "isError": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "example": "1"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "employeeId": {
+                "type": "string",
+                "example": "10"
+              },
+              "_id": {
+                "type": "string",
+                "example": "10"
+              },
+              "type": {
+                "type": "string",
+                "example": "Vacation"
+              },
+              "description": {
+                "type": "string",
+                "example": "PTO"
+              },
+              "startTime": {
+                "type": "string",
+                "example": "03/20/2023"
+              },
+              "endTime": {
+                "type": "string",
+                "example": "03/25/2023"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PostTimeEntriesRequest": {
+      "type": "object",
+      "required": ["employeeId", "type", "startTime", "endTime"],
+      "properties": {
+        "employeeId": {
+          "type": "string",
+          "example": "10"
+        },
+        "type": {
+          "type": "string",
+          "example": "Vacation"
+        },
+        "description": {
+          "type": "string",
+          "example": "PTO"
+        },
+        "startTime": {
+          "type": "string",
+          "example": "03/20/2023"
+        },
+        "endTime": {
+          "type": "string",
+          "example": "03/25/2023"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "isError": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "Failed"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "isError": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Success"
+        }
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User Registration and Login module"
+    },
+    {
+      "name": "Time Entry",
+      "description": "Time entry module"
+    }
+  ]
+}

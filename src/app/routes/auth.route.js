@@ -42,7 +42,12 @@ router.post("/login", async (req, res) => {
         expiresIn: 1000000,
       });
 
-      const responseObj = { userName, token };
+      const responseObj = {
+        isError: false,
+        message: "Login Successful!",
+        userName,
+        token,
+      };
 
       res.status(200).json(responseObj);
     } else {

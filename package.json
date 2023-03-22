@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "jest --no-cache --coverage --verbose --watchAll=false"
+    "test": "jest --no-cache --verbose --watchAll=false --forceExit"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -43,9 +43,10 @@
       "src/*.js",
       "src/**/*.js",
       "**/*.{js}",
-      "*.js",
+      "!app.js",
       "!**/node_modules/**",
-      "!database/*"
+      "!database/*",
+      "!src/app/utils/*"
     ]
   }
 }
