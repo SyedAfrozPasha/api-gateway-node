@@ -26,7 +26,7 @@
    npm install
    ```
 
-4. To run the server at port 8080
+4. To run the server at port 8080 (<http://localhost:8080>)
 
    ```bash
    npm run dev
